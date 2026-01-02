@@ -1,8 +1,9 @@
 use std::sync::Arc;
 use wasm_bindgen::{JsCast, UnwrapThrowExt};
 use winit::application::ApplicationHandler;
-use winit::event::WindowEvent;
+use winit::event::{KeyEvent, WindowEvent};
 use winit::event_loop::{ActiveEventLoop, EventLoop};
+use winit::keyboard::PhysicalKey;
 use winit::platform::web::WindowAttributesExtWebSys;
 use winit::window::Window;
 use crate::state::State;
@@ -94,11 +95,23 @@ impl ApplicationHandler<State> for App {
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::Resized(size) => state.resize(size.width, size.height),
-            WindowEvent::RedrawRequested => state.render().unwrap_throw(),
+            WindowEvent::RedrawRequested => {
+                state.update();
+                state.render().unwrap_throw()
+            },
             WindowEvent::CursorMoved { position, .. } => {
                 let height = state.window.inner_size().height;
                 state.blueness = (position.y / height as f64 ).clamp(0.0, 1.0);
             }
+            WindowEvent::KeyboardInput {
+                event:
+                KeyEvent {
+                    physical_key: PhysicalKey::Code(code),
+                    state: key_state,
+                    ..
+                },
+                ..
+            } => state.handle_key(event_loop, code, key_state.is_pressed()),
             _ => {}
         }
     }

@@ -1,3 +1,5 @@
+#![feature(stmt_expr_attributes)]
+
 mod texture;
 mod vertex;
 mod camera;
