@@ -5,6 +5,8 @@ mod vertex;
 mod camera;
 mod state;
 mod app;
+mod model;
+mod resources;
 
 use std::sync::Arc;
 

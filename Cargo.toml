@@ -5,3 +5,4 @@ members = ["wasm-3d", "run-wasm"]
 # This should go in the Cargo.toml in the root directory
 [profile.release]
 strip = true
+
