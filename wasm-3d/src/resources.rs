@@ -145,4 +145,3 @@ pub async fn load_model(
 
     Ok(model::Model { meshes, materials })
 }
-

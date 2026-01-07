@@ -7,6 +7,7 @@ mod state;
 mod app;
 mod model;
 mod resources;
+mod light;
 
 use std::sync::Arc;
 

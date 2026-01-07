@@ -1,20 +1,24 @@
 use cgmath::{InnerSpace, Matrix, Matrix4, Point3, SquareMatrix, Vector3, Vector4};
 use winit::keyboard::KeyCode;
+use cgmath::prelude::*;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone, bytemuck::Pod, bytemuck::Zeroable)]
 pub struct CameraUniform {
     view_proj: [[f32; 4]; 4],
+    position: [f32; 4]
 }
 
 impl CameraUniform {
     pub fn new() -> Self {
         Self {
             view_proj: Matrix4::identity().into(),
+            position: Vector4::zero().into(),
         }
     }
-    pub fn update_view_proj(&mut self, camera: &mut Camera) {
+    pub fn update_uniform(&mut self, camera: &mut Camera) {
         self.view_proj = camera.world_to_clip_matrix().into();
+        self.position = camera.position.extend(1.0).into();
     }
 }
 
